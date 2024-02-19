@@ -28,14 +28,10 @@ public:
             return head;
         }
         k=k%length;
-        if(k==0)
-        {
-            return head;
-        }
         k =length-k;
         cout<<"kkk"<<k;
         first = head;
-        if(k==0)
+        if(k==0 || k==length)
         {
             return head;
         }
