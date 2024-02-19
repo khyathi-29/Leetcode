@@ -1,7 +1,7 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        set<int> a;
+        /*set<int> a;
         
         for(int i=0; i< nums.size();i++)
         {
@@ -14,8 +14,16 @@ public:
             nums[k]=*i;
             k=k+1;
 
+        }*/
+        int i=0;
+        for(int j=1;j<nums.size();j++)
+        {
+            if(nums[i]!=nums[j])
+            {   i++;
+                nums[i]=nums[j];
+            }
         }
-        return k;
+        return i+1;
         
     }
 };
