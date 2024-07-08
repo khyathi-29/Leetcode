@@ -1,52 +1,40 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int count1=0;
-        int count2=0;
-        int e1=INT_MIN,e2=INT_MIN;
-        for(int i=0;i<nums.size();i++)
+        int count1=0,count2=0;
+        int element1=INT_MIN,element2=INT_MIN;
+        for(int n: nums)
         {
-            if(count1==0 && e2!=nums[i])
+            if(count1==0 && n!=element2)
             {
-                count1++;
-                e1=nums[i];
-            }
-            else if(count2==0 && e1!=nums[i])
-            {
-                count2++;
-                e2=nums[i];
-            }
-            else if( e1==nums[i])
-            {
+                element1 = n;
                 count1++;
             }
-            else if( e2==nums[i])
+            else if(count2==0 && n!=element1)
             {
+                element2 =n;
                 count2++;
             }
+            else if (n==element1) count1++;
+            else if(n==element2) count2++;
             else
             {
                 count1--;
                 count2--;
             }
         }
-        vector<int> a;
         count1=0;
         count2=0;
-        for(int i=0;i<nums.size();i++)
+        int k = nums.size()/3;
+        for( int n: nums)
         {
-            if(e1==nums[i])
-            count1++;
-            else if(e2==nums[i])
-            count2++;
+            if(n==element1 && element1!=INT_MIN) count1++;
+            if(n==element2 && element2!=INT_MIN) count2++;
         }
-        if(count1>nums.size()/3)
-        a.push_back(e1);
-
-        if(count2>nums.size()/3)
-        a.push_back(e2);
-
-        sort(a.begin(),a.end());
-        return a;
+        vector<int> ans;
+        if(count1>k) ans.push_back(element1);
+        if(count2>k) ans.push_back(element2);
+        return ans;
+    
     }
 };
