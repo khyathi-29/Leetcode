@@ -1,39 +1,27 @@
 class Solution {
 public:
     double myPow(double x, int n) {
-
-        if(n==0)
+        double ans = 1;
+        if(n==0) return 1;
+        long long k=n;
+        if(k<0)
         {
-            return 1;
+            k=-k;
         }
-        if(n==1)
+       while(k)
+       {
+        if(k%2==0)
         {
-            return x;
-        }
-        if(n==-1)
-        {
-            return 1/x;
-        }
-         double k;
-        if(n%2==0)
-        {
-            cout<<n%2<<endl;
-            k = myPow(x,n/2);
-            k = k*k;
-            return k;
+          x=x*x;
+          k=k/2;
         }
         else
         {
-            k = myPow(x,n/2);
-            k=k*k;
-            if(n>0)
-            {
-            return k*x;
-            }
-            else
-            {
-                return k/x;
-            }
+            ans = ans * x;
+            k=k-1;
         }
+       }
+       if(n>0) return ans;
+       else return 1/ans;
     }
 };
