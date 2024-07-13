@@ -1,27 +1,26 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> a;
-        int ans =0;
+        unordered_set<int> s;
+        int longest=0;
+        for(int num:nums)
+        {
+            s.insert(num);
+        }
         for(int i=0;i<nums.size();i++)
         {
-            a.insert(nums[i]);
-        }
-        for(auto i = a.begin();i!=a.end();i++)
-        {
-            int x = *i;
-            
-            if(a.find(x-1)==a.end())
+            if(s.find(nums[i]-1)==s.end())
             {
-                int count=1;
-                while(a.find(x+1)!=a.end())
+                int count = 1;
+                int val = nums[i]+1;
+                while(s.find(val)!=s.end())
                 {
-                    x++;
                     count++;
+                    val++;
                 }
-                ans = max(ans,count);
+                longest=max(longest,count);
             }
         }
-        return ans;
+        return longest;
     }
 };
