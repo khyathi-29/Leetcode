@@ -1,49 +1,33 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        
         sort(nums.begin(),nums.end());
         vector<vector<int>> ans;
-        for(int a=0;a<nums.size();a++)
+        for(int i=0;i<nums.size();i++)
         {
-             if (a != 0 && nums[a] == nums[a - 1]) continue;
-            long long int target1 = target-nums[a];
-        for(int i=a+1;i<nums.size();i++)
-        {
-            if (i != a+1 && nums[i] == nums[i - 1]) continue;
-            long long int target2 = target1-nums[i];
-            int j=i+1;
-            int k=nums.size()-1;
-            while(j<k)
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            for(int j=i+1;j<nums.size();j++)
             {
-                if(nums[j]+nums[k]>target2)
+                if(j>i+1 && nums[j]==nums[j-1]) continue;
+                int k = j+1;
+                int l = nums.size()-1;
+                while(k<l)
                 {
-                    k--;
-                }
-                else if(nums[j]+nums[k]<target2)
-                {
-                    j++;
-                }
-                else
-                {
-                    ans.push_back({nums[a],nums[i],nums[j],nums[k]});
-                    cout<<"i j k are"<<i<<j<<k<<endl;
-                    while(j<k && nums[j]==nums[j+1])
-                    {
-                       j++;
+                    long long sum = (long long)nums[i] + nums[j] + nums[k]+ nums[l];
+                    if(sum<target) k++;
+                    else if(sum>target)l--;
+                    else{
+                        vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
+                        ans.push_back(temp);
+                        k++;
+                        l--;
+                        while(k<l && nums[k]==nums[k-1]) k++;
+                        while(k<l && nums[l]==nums[l+1]) l--;
                     }
-                    while(j<k && nums[k]==nums[k-1])
-                    {
-                       k--;
-                    }
-                    j++;
-                    k--;
-                }
-            }
-        }
+                }        
+            }    
         }
         return ans;
-    
         
     }
 };
