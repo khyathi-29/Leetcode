@@ -5,23 +5,20 @@ public:
         {
             return 1;
         }
-        vector<int> a(255,-1);
-        int len=0;
-        int maxlen=0;
-        int left=0;
-        int right=0;
-        while(right<s.size())
+        vector<int> temp(255,-1);
+        int n= s.size();
+        int left = 0;
+        int right = 0;
+        int maxLen=0;
+        while(right<n)
         {
-            if(a[s[right]]!=-1)
-            {
-              left = max(a[s[right]]+1,left);
-            }
-            a[s[right]]=right;
-            maxlen=max(maxlen,right-left+1);
+            if(temp[s[right]]!=-1) left = max(left,temp[s[right]]+1);
+             
+             temp[s[right]]=right;
+             //cout<<right<<" "<<left<<endl;
+             maxLen = max(maxLen,right-left+1);
             right++;
         }
-        return max(maxlen,len);
-        
-        
+   return maxLen;
     }
 };
