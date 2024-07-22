@@ -8,15 +8,12 @@ public:
         sort(s.begin(),s.end());
         while( i<g.size()  &&  j< s.size())
         {
-            if(g[i]<=s[j])
-            {
-                i++;
-                j++;
-                count++;
-            }
+            if(g[i]>s[j]) j++;
             else
             {
+               i++;
                 j++;
+                count++;
             }
         }
         return count;
