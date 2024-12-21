@@ -11,96 +11,28 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* head = list1;
-        if(list1==NULL)
+      if(list1==NULL) return list2;
+      if(list2==NULL) return list1;
+      if(list1->val > list2->val) return mergeTwoLists(list2,list1);
+      ListNode* ans = list1;
+      ListNode* prevl1;
+      while(list1!=NULL and list2!=NULL)
+      {
+        if(list1->val <= list2->val)
         {
-            return list2;
-        }
-        if(list2==NULL)
-        {
-            return list1;
-        }
-        if(list1->val > list2->val)
-        {
-            ListNode* a = list1;
-            list1 = list2;
-            list2 = a;
-        }
-        ListNode* ans=list1;
-        
-        while(list1!=NULL && list2!=NULL)
-        {
-            ListNode* temp;
-            if(list1!=NULL && list1->val <= list2->val)
-            {
-                temp=list1;
-                list1=list1->next;
-            }
-            temp->next = list2;
-            ListNode* a = list1;
-            list1 = list2;
-            list2 = a;
-            
-        }
-        return ans;
-        
-        
-       /* if(list1==NULL)
-        {
-            return list2;
-        }
-        if(list2==NULL)
-        {
-            return list1;
-        }
-        int a=0;
-        if(list1->val > list2->val)
-        {
-            a= list2->val;
-            list2=list2->next;
+            prevl1 = list1;
+            list1=list1->next;
         }
         else
         {
-            a=list1->val;
-            list1=list1->next;
+            ListNode* temp = list1;
+            list1 = list2;
+            prevl1->next = list2;
+            list2 = temp;
+             
         }
-        ListNode* head = new ListNode(a);
-        ListNode* l1 = list1;
-        ListNode* l2 = list2;
-        ListNode* l3 = head;
-        
-        while(l1!=NULL && l2!=NULL)
-        {
-            if(l1->val > l2->val)
-            {
-                ListNode* temp = new ListNode(l2->val);
-                l3->next = temp;
-                l3=l3->next;
-                l2=l2->next;
-            }
-            else
-            {
-                ListNode* temp = new ListNode(l1->val);
-                l3->next = temp;
-                l3=l3->next;
-                l1=l1->next;
-            }
-        }
-        while(l1!=NULL){
-            ListNode* temp = new ListNode(l1->val);
-                l3->next = temp;
-                l3=l3->next;
-                l1=l1->next;
-            
-        }
-        while(l2!=NULL)
-        {
-            ListNode* temp = new ListNode(l2->val);
-                l3->next = temp;
-                l3=l3->next;
-                l2=l2->next;
-        }
-        return head;*/
-        
+      }
+      prevl1->next = list2;
+      return ans;  
     }
 };
