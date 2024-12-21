@@ -1,29 +1,29 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int max_left=0;
-        int max_right=0;
-        vector<int> a;
-        vector<int> b(height.size());
-        for(int i=0;i<height.size();i++)
+        //logic minimum of two max wall on left and right
+        int n = height.size();
+        int maxLeft = height[0];
+        int maxRight = height[n-1];
+        int left = 1;
+        int right = n-2;
+        int trap =0;
+        while(left<=right)
         {
-            max_left = max(height[i],max_left);
-            a.push_back(max_left);     
-        }
-        for(int i=height.size()-1;i>-1;i--)
-        {
-            max_right = max(height[i],max_right);
-            b[i]=max_right; 
-        }
-        int count = 0;
-        for(int i=0;i<height.size();i++)
-        {
-            int k = min(a[i],b[i])-height[i];
-            if(k>0)
+            if(maxLeft<=maxRight)
             {
-                count+=k;
+                maxLeft=max(height[left],maxLeft);
+                if(height[left]<maxLeft) trap+= maxLeft-height[left];
+                left++;
+            }
+            else
+            {
+                maxRight=max(height[right],maxRight);
+                if(height[right]<maxRight) trap+=maxRight-height[right];
+                right--;
+
             }
         }
-        return count;
+        return trap;
     }
 };
