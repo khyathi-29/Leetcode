@@ -1,25 +1,30 @@
 class Solution {
 public:
-    void combination(int index,vector<int>& candidates,int target,vector<vector<int>>& ans,vector<int>& temp)
+    void combinationsum(int index, vector<int>& candidates, vector<int>& temp,vector<vector<int>>& ans, int target)
     {
-        if(index==candidates.size())
-        {
+        if(index==candidates.size()) 
+        { 
             if(target==0)
-            ans.push_back(temp);
+            {
+                ans.push_back(temp);
+            }
             return;
         }
-        if(target>= candidates[index])
-        {
-            temp.push_back(candidates[index]);
-            combination(index,candidates,target-candidates[index],ans,temp);
-            temp.pop_back();
+    
+            if(target >= candidates[index])
+            { 
+                temp.push_back(candidates[index]);
+                combinationsum(index,candidates,temp,ans,target-candidates[index]);
+                temp.pop_back();
+            }
+            combinationsum(index+1,candidates, temp,ans,target);
+
         }
-        combination(index+1,candidates,target,ans,temp);
-    }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<int> t;
         vector<vector<int>> ans;
-        combination(0,candidates,target,ans,t);
-        return ans;
+        sort(candidates.begin(),candidates.end());
+        vector<int> temp;
+       combinationsum(0,candidates,temp,ans,target);
+       return ans;
     }
 };
