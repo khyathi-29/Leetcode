@@ -10,48 +10,46 @@
  */
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-       ListNode* slow = head;
-       ListNode* fast = head;
-       if(head==NULL || head->next==NULL)
-       {
-           return true;
-       }
-        while(fast->next!=NULL && fast->next->next!=NULL)
+    ListNode* reverseLinkedList(ListNode* head)
+    {
+        ListNode* current = head;
+        ListNode* prev = NULL;
+        while(current!=NULL)
         {
-            fast = fast->next->next;
-            slow = slow->next;
+            ListNode* next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
         }
-        ListNode* reversehead=slow->next;
-        slow->next=NULL;
-        reversehead = reverse(reversehead);
-        while(reversehead!=NULL && head!=NULL )
+          return prev;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast =head;
+        ListNode* prev;
+        if(head->next==NULL) return true;
+        while(fast!=NULL and fast->next!=NULL)
         {
-            if(reversehead->val!=head->val)
+            fast=fast->next->next;
+            prev = slow;
+            slow=slow->next;
+        }
+        prev->next=NULL;
+        fast = head;
+        slow=reverseLinkedList(slow);
+        while(fast!=NULL && slow!=NULL)
+        {
+            if(slow->val == fast->val)
+            {
+                slow=slow->next;
+                fast=fast->next;
+            }
+            else
             {
                 return false;
             }
-            reversehead=reversehead->next;
-            head=head->next;
         }
-        
         return true;
+        
     }
-    ListNode* reverse(ListNode* head)
-    {
-        if(head==NULL || head->next==NULL)
-        {
-            return head;
-        }
-        ListNode* current = head;
-        ListNode* back = NULL;
-        while(current!=NULL)
-        {
-            ListNode* front = current->next;
-            current->next = back;
-            back = current;
-            current = front;
-        }
-        return back;
-    }
-};  
+};
