@@ -1,9 +1,10 @@
 // 128 ASCII char
-// We
+// We use 
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-       map<string,vector<string>> a;
+       unordered_map<string,vector<string>> a;
+       // map<vector<int>,vector<string>> a; not possible to have vector<int> as key for unordered map
         vector<vector<string>> ans;
         for(int i=0;i<strs.size();i++)
         {
