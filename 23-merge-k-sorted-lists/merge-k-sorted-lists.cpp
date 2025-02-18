@@ -17,17 +17,21 @@ public:
             if(i!=NULL)
             pq.push(make_pair(i->val,i));
         }
-        if(pq.empty()) return NULL;
-        ListNode* head = pq.top().second;
-        ListNode* current = head;
-        if(head->next) pq.push(make_pair(head->next->val,head->next));
-        pq.pop();
+        ListNode* head = NULL;
+        ListNode* current = NULL;
+        
         while(!pq.empty()){
             ListNode* temp = pq.top().second;
-            current->next = temp;
+            if(head==NULL){
+                head = temp;
+                current = temp;
+            }
+            else{
+                current->next = temp;
+                current = current->next;
+            }
             pq.pop();
             if(temp->next) pq.push(make_pair(temp->next->val,temp->next));
-            current = current->next;
         }
         return head;
         
