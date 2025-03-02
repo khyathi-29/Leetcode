@@ -11,12 +11,34 @@ public:
             for(int j=0;j<col;j++){
                 if(grid[i][j]=='1'){
                     count++;
-                    dfs(i,j,row,col,grid);
+                    //dfs(i,j,row,col,grid);
+                    bfs(i,j,row,col,grid);
                 }
             }
         }
         return count;
     }
+        void bfs ( int r,int c,int row,int col, vector<vector<char>>& grid){
+            queue<pair<int,int>> q;
+            grid[r][c]='0';
+            q.push({r,c});
+            while(!q.empty()){
+                int i = q.front().first;
+                int j = q.front().second;
+                q.pop();
+               // if(grid[i][j]=='1') grid[i][j]='0';
+                vector<int> rr = {0,0,+1,-1};
+                vector<int> cc = {-1,+1,0,0};
+                for(int k=0;k<4;k++){
+                   int R = i + rr[k];
+                   int C = j+ cc[k];
+                    if( R<row && R> -1 && C< col && C >-1 && grid[R][C]=='1'){
+                        q.push({R,C});
+                        grid[R][C]='0';
+                    }
+                }
+            }
+        }
         void dfs ( int r,int c,int row,int col, vector<vector<char>>& grid){
             if(r>=row || c>=col || r < 0 || c < 0) return;
             else{
