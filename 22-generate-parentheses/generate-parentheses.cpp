@@ -10,7 +10,7 @@ public:
     {
         if(openP==closeP && openP==n){
             ans.push_back(pattern);
-            return;
+           // return;
         }
         if(openP < n){
             pattern += '(';
