@@ -1,23 +1,26 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        int total_sum=0;
-        for(int i=0;i<nums.size();i++){
-            total_sum += nums[i];
+        int total =0;
+        for(int t : nums){
+            total+=t;
         }
-        int target = total_sum/2;
-        vector<vector<int>> dp(nums.size(),vector<int>(target+1,-1));
-        if(total_sum%2==1) return false;
-        if(partitionHelper(0,nums,0,total_sum/2,dp)==true) return true;
-        return false;
+        if(total%2==1) return false;
+        int target = total/2;
+        vector<vector<bool>> dp(nums.size()+1,vector<bool>(target+1,false));
+        for(int i=0;i<=nums.size();i++)//sum =0 base case possible always so
+        {
+            dp[i][0]=true;
+        }
+        for(int i=1;i<=nums.size();i++){
+            for(int j=1;j<=target;j++){
+                dp[i][j]=dp[i-1][j];//exclude target case;
+                if(j>=nums[i-1]){
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
+                }
+            }
+        }
 
-    }
-    bool partitionHelper(int sum,vector<int>& nums, int i,int total,vector<vector<int>>& dp){
-        if(sum==total) return true;
-        if(i>= nums.size() || sum>total) return false;
-        if(dp[i][sum]!=-1) return dp[i][sum];
-        if(partitionHelper(sum+nums[i],nums,i+1,total,dp)) return dp[i][sum]=true;
-        if(partitionHelper(sum,nums,i+1,total,dp)) return dp[i][sum]=true;
-        return dp[i][sum]=false;
+        return dp[nums.size()][target];
     }
 };
