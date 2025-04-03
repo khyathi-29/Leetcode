@@ -41,7 +41,8 @@ public:
         while(h!=NULL){
             Node* newNode = h->next;
             h->next = newNode->next; // Restore original list's next pointer
-            newNode->next = (h->next != NULL) ? h->next->next : NULL; // Set next pointer for copied list
+            if(h->next != NULL) newNode->next = h->next->next;
+            else newNode->next = NULL;
             h = h->next; // Move to the next original node
         }
         return ans;
