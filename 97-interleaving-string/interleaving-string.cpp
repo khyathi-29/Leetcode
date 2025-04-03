@@ -1,27 +1,22 @@
+// tabulation 
 class Solution {
 public:
     bool isInterleave(string s1, string s2, string s3) {
         int n = s1.size();
         int m = s2.size();
         int s = s3.size();
-        vector<vector<int>> dp (n+1,vector<int>(m+1,-1)) ;
         if(s!=n+m) return false;
-        return helper(0,0,0,s1,s2,s3,dp);
-        
-    }
-    bool helper(int i,int j,int k,string s1, string s2, string s3,vector<vector<int>>& dp){
-        if(k==s3.size()){
-            return (i==s1.size())&&(j==s2.size());
+
+        vector<vector<bool>> dp (n+1,vector<bool>(m+1,false)) ;
+        dp[0][0]=true;
+        for(int i=0;i<n+1;i++){
+            for(int j=0;j<m+1;j++){
+                int k = i+j;
+                if(i>0 && s1[i-1]==s3[k-1]) dp[i][j]=dp[i-1][j];
+                if(j>0 && s2[j-1]==s3[k-1] && dp[i][j]==false) dp[i][j]= dp[i][j-1];
+            }
         }
-        if(dp[i][j]!=-1) return dp[i][j];
-        bool res = false;
-        if(i<s1.size() && s1[i]==s3[k]){
-            if(helper(i+1,j,k+1,s1,s2,s3,dp)==true) res = true;
-        }
-        if(res==false && j<s2.size() && s2[j]==s3[k]){
-            if(helper(i,j+1,k+1,s1,s2,s3,dp)==true) res = true;
-        }
-        dp[i][j]= res;
-        return res;
+        return dp[n][m];
+
     }
 };
