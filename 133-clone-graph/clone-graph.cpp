@@ -18,31 +18,35 @@ public:
     }
 };
 */
-//using bfs or dfs O(V+E) && 0(V)
+
 class Solution {
 public:
     Node* cloneGraph(Node* node) {
-        if(node==NULL) return NULL;
-        Node* main = new Node(node->val);
-        unordered_map<Node*,Node*> update;// linking old node to new
-        update[node]=main;
-        queue<Node*> q;
-        q.push(node);
-        while(!q.empty()){
-            Node* temp = q.front();
-            cout<<temp->val<<endl;
-            q.pop();
-            for(Node* i : temp->neighbors){
-                if(update.find(i)==update.end()){
-                    Node* n = new Node(i->val);
-                    update[i] =n;
-                    q.push(i); //push into queue since its unvisited and found first time
-                }
-                update[temp]->neighbors.push_back(update[i]);
+     queue<Node*> q;
+     unordered_map<Node*,Node*> mp;
+     if(node== NULL) return NULL;
+     Node* start =  new Node(node->val);
+     mp[node]=start;
+     q.push(node);
+     vector<bool> visited(101,false);
+     visited[node->val]=true;
+     while(!q.empty()){
+        Node* current = q.front();
+        q.pop();
+        for( auto it : current->neighbors){
+            if(mp.find(it)==mp.end()){
+                Node* temp = new Node(it->val);
+                mp[it]=temp;
             }
-
+            mp[current]->neighbors.push_back(mp[it]);
+            if(visited[it->val]==false){
+            visited[it->val]=true;
+            // we need to make it true as soon as adding it to queue so that we don't add to queue againa and again it again and again
+             q.push(it);
+            }
+            
         }
-        return main;
-        
+     } 
+     return start; 
     }
 };
