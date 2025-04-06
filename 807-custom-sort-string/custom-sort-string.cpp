@@ -14,7 +14,7 @@ public:
                     frequency[c-'a']--;
                 }
         }
-        // now if there are any remaining charectors in the map add them as well.
+        // now if there are any remaining charectors in the frequency add them as well.
         for(int i=0;i<26;i++){
             while(frequency[i]>0){
                 char c = 'a'+i;
