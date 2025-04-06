@@ -1,24 +1,25 @@
 class Solution {
 public:
     string customSortString(string order, string s) {
-        unordered_map<char, int> m;
+       vector<int> frequency(26,0);
         // count occurence of each charector in string s;
         for(char c : s){
-            m[c]++;
+            frequency[c-'a']++;
         }
         string ans = "";
+        // now add all occurences of that charector into string in the order string given
         for(char c : order){
-            if(m.find(c)!=m.end()){
-                while(m[c]>0){
+                while(frequency[c-'a']>0){
                     ans = ans+c;
-                    m[c]--;
+                    frequency[c-'a']--;
                 }
-            }
         }
-        for(auto& it : m){
-            while(it.second>0){
-                ans = ans+it.first;
-                m[it.first]--;
+        // now if there are any remaining charectors in the map add them as well.
+        for(int i=0;i<26;i++){
+            while(frequency[i]>0){
+                char c = 'a'+i;
+                ans = ans+c;
+                frequency[i]--;
             }
         }
         return ans;
