@@ -1,43 +1,35 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        unordered_map<char,int> check;
-        int ans_r = 0;
-        int ans_l = 0;
-        int ans = INT_MAX;
-        int count = 0;
+        unordered_map<char,int> f1;
+        unordered_map<char,int> f2;
         if(s.size()<t.size()) return "";
-        for(char c : t){
-            check[c]++;
-        }
-        int l =0;
-        int r=0;
-        for(int r=0;r< s.size();r++){
-            cout<<count<<endl;
-            if(check[s[r]]>0){ 
-                count++;
+        for( char c: t) f1[c]++;
+        int match = f1.size();
+        int start = 0;
+        int end = -1;
+        int len = INT_MAX;
+        int left =0;
+        int right =0;
+        while(right<s.size()){
+            char c = s[right];
+            f2[c]++;
+            if(f1.find(c)!=f1.end() && f2[c]==f1[c]) match--;
+            while(match==0){
+                if(right+1-left<len){
+                    start =left;
+                    end = right;
+                    len = right+1-left;
+                }
+                f2[s[left]]--;
+                if(f1.find(s[left])!=f1.end() && f1[s[left]]>f2[s[left]]) match++;
+                left = left+1;
             }
-            check[s[r]]--;
-            while(count==t.size()){
-                if(r-l+1<ans){
-                    ans_r = r;
-                    ans_l = l;
-                    ans = r-l+1;
-                }
-                check[s[l]]++;
-                if(check[s[l]]>0){
-                    count--;
-                }
-                l++;
-            } 
+            right++;
+            
         }
-        string tt ="";
-        if(ans == INT_MAX)return tt;
-        for(int i = ans_l; i<=ans_r;i++){
-        tt = tt + s[i];
-        }
-        
-        return tt;
+        if(end==-1) return "";
+        return s.substr(start,len);
         
     }
 };
