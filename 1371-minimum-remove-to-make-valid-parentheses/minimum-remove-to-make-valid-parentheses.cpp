@@ -2,7 +2,7 @@ class Solution {
 public:
     string minRemoveToMakeValid(string s) {
         stack<int> st;
-        vector<int> indexRemoval;
+        //vector<int> indexRemoval;
         for(int i=0;i<s.size();i++){
             if(s[i]=='(') st.push(i);//index where bracket opens
             else if(s[i]==')'){
