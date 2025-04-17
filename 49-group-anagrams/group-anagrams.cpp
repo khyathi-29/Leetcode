@@ -1,5 +1,11 @@
 // 128 ASCII char
-// We use 
+// We use unorderedmap to store anagrams;
+// we traverse each string and construct a frequency matrix of length 26 as there are only 26 letters
+// then we make a frequency string by comma separated so that by mistake we dont get two strings not anagrams as same string
+// if there exists same frequency string inside the map then we push our string into the vector
+// else we create key value pair
+// time complexity && space complexity is m*n where m is number of strings and n is length of string
+
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
@@ -14,7 +20,6 @@ public:
                temp[c-'a']++;
             }
             string s = "";
-            s=to_string(temp[0]);
             for(int i=0;i<26;i++)
             {
                 s = s+","+to_string(temp[i]);
