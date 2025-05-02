@@ -3,7 +3,6 @@ class Solution {
         int i=0;
         int sign = 1;
         int ans = 0;
-        if(s.length()==0) return 0;
         while(i<s.length() && s.charAt(i)==' '){
             i++;
         } 
