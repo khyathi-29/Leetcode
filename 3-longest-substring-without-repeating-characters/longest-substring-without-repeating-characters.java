@@ -1,5 +1,6 @@
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        //since we have " " sometimes as value
         int[] charIndex = new int[128];
         Arrays.fill(charIndex,-1);
         int start = -1;
