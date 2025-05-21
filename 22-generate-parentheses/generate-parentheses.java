@@ -1,27 +1,31 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
-        int openBrackets=0;
-        int closeBrackets=0;
-        List<Character> ls = new ArrayList<>();
+        int open = 0;
+        int close = 0;
         List<String> ans = new ArrayList<>();
-        Helper(openBrackets,closeBrackets,ls,ans,n);
+        List<Character> temp = new ArrayList<>();
+        Helper(open,close,n,ans,temp);
         return ans;
     }
-    public void Helper(int op,int cl,List<Character> sb,List<String> ls,int n){
-        if(op==n  && cl == n ){
-           StringBuilder b = new StringBuilder();
-           for (char c : sb) b.append(c);
-           ls.add(b.toString());
+    private void Helper(int open, int close, int n, List<String> ans, List<Character> temp){
+        if(open == n && close == n){
+            StringBuilder sb = new StringBuilder();
+            for(char c : temp){
+                sb.append(c);
+            }
+            ans.add(sb.toString());
+                return;
         }
-        if(op<n){
-            sb.add('(');
-            Helper(op+1,cl,sb,ls,n);
-            sb.remove(sb.size()-1);
+        if(open < n){
+            temp.add('(');
+            Helper(open+1,close,n,ans,temp);
+            temp.remove(temp.size()-1);
         }
-        if(cl<op){
-            sb.add(')');
-            Helper(op,cl+1,sb,ls,n);
-            sb.remove(sb.size()-1);
+        if(close < open){
+            temp.add(')');
+            Helper(open,close+1,n,ans,temp);
+            temp.remove(temp.size()-1);
         }
+
     }
 }
