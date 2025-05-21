@@ -16,7 +16,9 @@ class Solution {
               
               for( int i=0;i<nums.length;i++){
                 if(visited[i]== true) continue;
-                if(i>0 && nums[i]==nums[i-1] && visited[i-1]==true) continue;
+                if(i>0 && nums[i]==nums[i-1] && visited[i-1]==false) continue;
+                // if next elements are equal and previous element not visited then ignore that case
+                //only if previous element is visited should be add it to our anser
                 visited[i] = true;
                 temp.add(nums[i]);
                 Helper(j+1,ans,temp,visited,nums);
