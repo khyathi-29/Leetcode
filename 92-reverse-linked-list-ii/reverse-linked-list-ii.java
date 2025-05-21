@@ -34,6 +34,7 @@ class Solution {
         prev1.next = prev;
         System.out.println(tail.val);
         tail.next = n;
+        // we can't return head because if left==1 then head would also change
         return dummy.next;
     }
 }
