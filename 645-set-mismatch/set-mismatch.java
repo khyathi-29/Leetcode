@@ -16,8 +16,8 @@ class Solution {
         {
            if(nums[i]!=i+1)
            {
-             ans[0] = nums[i];
-             ans[1] = i+1;
+             ans[0] = nums[i];//repeated number
+             ans[1] = i+1; // missing number
            }
         }
         return ans;
