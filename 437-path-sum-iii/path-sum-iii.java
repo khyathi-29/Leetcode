@@ -26,10 +26,9 @@ class Solution {
         if(root == null) return;
         sum+=root.val;
         if(sum==targetSum) ans++;
-        if(count.containsKey(sum-targetSum)!=false)
-        {
-            ans +=count.get(sum-targetSum);
-        }
+       
+        ans +=count.getOrDefault(sum-targetSum,0);
+        
         count.put(sum,count.getOrDefault(sum,0)+1);
         Helper(root.left,sum,targetSum,count);
         Helper(root.right,sum,targetSum,count);
