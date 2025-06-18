@@ -19,17 +19,14 @@ class Solution {
     }
     void  Helper(TreeNode root, int target,Map<TreeNode,TreeNode> mp,List<Integer> ans,Set<TreeNode> vis){
         if(root==null) return ;
-        if(target==0){
+        if(target==0 && vis.contains(root)==false){
             ans.add(root.val);
             return;
         }
+        if(vis.contains(root)==true) return;//already visited node
         vis.add(root);
-        if(root.left!=null && vis.contains(root.left)==false) {
-            Helper(root.left,target-1,mp,ans,vis);
-        }
-         if(root.right!=null && vis.contains(root.right)==false){
-           Helper(root.right,target-1,mp,ans,vis);
-         } 
+        Helper(root.left,target-1,mp,ans,vis);
+        Helper(root.right,target-1,mp,ans,vis);
          if(mp.containsKey(root)==true && vis.contains(mp.get(root))==false)
          {
             Helper(mp.get(root),target-1,mp,ans,vis);
