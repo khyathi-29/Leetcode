@@ -20,7 +20,7 @@ class Solution {
                 low = mid+1;
             }
             else {
-                ans = mid;
+                ans = Math.min(mid,ans);
                 high= mid-1;
             }
             
