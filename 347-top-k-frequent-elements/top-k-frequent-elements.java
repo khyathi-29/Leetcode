@@ -1,30 +1,36 @@
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-      Map<Integer,Integer> mp = new HashMap<>();
-      for(int i : nums){
-        mp.put( i, mp.getOrDefault(i,0)+1);
-      }
-      List<Integer>[] temp = new ArrayList[nums.length+1];
-      for(Map.Entry<Integer, Integer> entry : mp.entrySet())
-      {
-        int freq = entry.getValue();
-        if (temp[freq] == null) temp[freq] = new ArrayList<>();
-        temp[freq].add(entry.getKey());
-      }
-      int[] ans = new int[k];
-      int j=0;
-      for(int kk = nums.length ; kk>-1;kk--)
-      {
-        if(temp[kk]!=null)
+        Map<Integer, Integer> mp = new HashMap<>();
+        for(int i : nums)
         {
-        for(int i : temp[kk])
+            mp.put(i,mp.getOrDefault(i,0)+1);
+        }
+        List<Integer>[] freq = new ArrayList[nums.length+1];
+        for(Map.Entry<Integer,Integer> entry : mp.entrySet())
         {
-             ans[j]=i;
-             j++;
-             if(j==k) return ans;
+            int kk = entry.getKey();
+            int v = entry.getValue();
+            if(freq[v]==null) freq[v]=new ArrayList<>();
+            freq[v].add(kk);
         }
+        int[] ans = new int[k];
+        int i =0;
+        int j = freq.length-1;
+        while(j>0)
+        {
+            if(freq[j]!=null)
+            {
+                for(int t : freq[j])
+                {
+                    ans[i]=t;
+                    i++;
+                    k--;
+                    if(k==0) return ans;
+                    
+                }
+            }
+            j--;
         }
-      }
-    return ans;
+        return ans;
     }
 }
