@@ -1,20 +1,24 @@
 class Solution {
+    // the one already not in correct position and if there exists one element in correct position we can just return it;
     public int findDuplicate(int[] nums) {
         int i = 0;
         while(i<nums.length)
         {
-            int pos = nums[i]-1;
+            if(nums[i]!=i){
+            int pos = nums[i];
             if(nums[i]!=nums[pos])
             {
                 swap(nums,i,pos);
             }
             else{
-                i++;
+                return nums[i];
             }
+          }
+          else i++;
         }
         for(i=0;i<nums.length;i++)
         {
-            if(nums[i]!=1+i) return nums[i];
+            if(nums[i]!=1) return nums[i];
         }
         return -1;
     }
