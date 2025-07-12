@@ -9,7 +9,6 @@ public:
             if(letters[mid]<=target) i = mid+1;
             else j = mid-1;
         }
-        if(i<letters.size())return letters[i];
-        else return letters[0];
+        return i<letters.size() ? letters[i]:letters[0];
     }
 };
