@@ -8,6 +8,7 @@ public:
             low = max(low,i);
             high+=i;
         }
+        int ans = high;
         while(low<=high)
         {
             int mid = (low + (high-low)/2);
@@ -23,11 +24,12 @@ public:
             }
             if(count<=k)
             {
+                ans = min(ans,mid);
                 high = mid-1;
             }
             else low = mid+1;
         }
-        return low;
+        return ans;
         
     }
 };
