@@ -11,44 +11,45 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-       ListNode* newHead = head;
-       ListNode* ans = NULL;
-       ListNode* prevTail=NULL;
-        while(newHead!=NULL){
-           if(kth(newHead,k)==true){
-            ListNode* initialHead = newHead;
-            ListNode* kthhead = reverse(newHead,k);
-            if(!ans) ans = kthhead;
-            if(prevTail) prevTail->next = kthhead;//connecting reversed segment to previous segment
-            prevTail = newHead;
-            newHead = initialHead->next;
-           }
-           else break;
+     ListNode* dummy = new ListNode(0,head);
+     ListNode* temp = head;
+     ListNode* prevHead = dummy;
+     while(temp!=NULL)
+     {
+        ListNode* temp1 = temp;
+        int n = k;
+        while(n!=0)
+        {
+            if(temp1==NULL) return dummy->next;
+            temp1 = temp1->next;
+            n--;
         }
-       return ans;
-        
+        ListNode* oldstart = temp;
+        ListNode* newstart = Reverse(temp,k);
+
+        prevHead->next = newstart;
+        prevHead = oldstart;
+        oldstart->next = temp1;
+        temp = temp1;
+     }
+        return dummy->next;
+
     }
-    ListNode* reverse(ListNode* head, int k){
-        ListNode* prev = NULL;
-        ListNode* node = head;
-        while(k--){
-            ListNode* Next = node->next;
-            node->next = prev;
-            prev = node;
-            node = Next;
-        }
-        head->next = node;//connecting reverse segment to next segment
-        return prev;
-    }
-    bool kth(ListNode* head, int k){
-        ListNode* temp = head;
-        while(k!=0 && temp!=NULL){//1 3 //2 2 //3 1
-            temp = temp->next;
+    ListNode* Reverse(ListNode* temp, int k)
+    {
+        ListNode* te = temp;
+        ListNode* pre = NULL;
+        ListNode* Next;
+        while(k!=0)
+        {
+            Next = te->next;
+            te->next = pre;
+            pre = te;
+            te = Next;
             k--;
         }
-        //cout<<temp->val<<endl;
-        if(k==0) return true;
-        else return false;
+
+        return pre;
     }
     
 };
