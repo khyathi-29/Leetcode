@@ -13,7 +13,7 @@ public:
             // and makes sure loop is in descending order;
             de.push_back(i);
             
-            if(de.front()< i-k+1)
+            if(de.front()<=i-k)
             {
                 de.pop_front();
             }
