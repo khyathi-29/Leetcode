@@ -1,8 +1,6 @@
 class Solution {
 public:
     int reverse(int x) {
-        int max = (2^31)-1;
-        int min = -2^31;
 
         if(x==0) return x;
         int ans =0;
