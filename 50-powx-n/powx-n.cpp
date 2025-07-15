@@ -8,7 +8,7 @@ public:
         if(x==1 || n==0) return 1;
         if(n<0) {
             pow =-1;
-            nn=-(1L*n);
+            nn=-(long)n;
         }
         while(nn!=0)
         {
