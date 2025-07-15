@@ -1,25 +1,29 @@
 class Solution {
 public:
     double myPow(double x, int n) {
-        int k = 1;
-        long kk = n;
+        int pow = 1;
         double ans = 1;
-        if(n==0) return 1;
-        if(x==1) return x;
+        long nn=n;
+        if(n==1) return x;
+        if(x==1 || n==0) return 1;
         if(n<0) {
-            kk=-kk;
-            k=-1;}
-        while(kk>0){
-           if((kk%2)==0){
+            pow =-1;
+            nn=-(1L*n);
+        }
+        while(nn!=0)
+        {
+          if((nn%2)==0){
              x*=x;
-             kk=kk/2;
+             nn=nn/2;
              }
            else{
             ans = ans*x;
-            kk=kk-1;
+            nn=nn-1;
            } 
         }
-        if(k==-1) return 1/ans;
+        cout<<pow<<endl;
+        if(pow==-1) return 1/ans;
         else return ans;
+        
     }
 };
