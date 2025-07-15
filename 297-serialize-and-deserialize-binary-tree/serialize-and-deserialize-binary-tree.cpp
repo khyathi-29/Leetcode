@@ -12,55 +12,51 @@ public:
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        queue<TreeNode*> q;
+        string s = "";
         if(root==NULL) return "N,";
-        string s ="";
+        queue<TreeNode*> q;
         q.push(root);
-        while(!q.empty()){
-            TreeNode* temp =q.front();
+        while(!q.empty())
+        {
+            TreeNode* temp = q.front();
             q.pop();
-            if(!temp) s = s+"N,";
+            if(temp==NULL) s +="N,";
             else{
-                s = s+ to_string(temp->val)+",";
+                s = s+to_string(temp->val)+",";
                 q.push(temp->left);
                 q.push(temp->right);
             }
 
         }
-        s.pop_back();
-        cout<<s<<endl;
         return s;
         
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        cout<<data<<endl;
-        TreeNode* root=NULL;
+        if(data=="N,") return NULL;
+        stringstream ss(data);
+        string temp;
+        getline(ss,temp,',');
+        TreeNode* root = new TreeNode(stoi(temp));
         queue<TreeNode*> q;
-        stringstream s(data);
-        string str;
-        getline(s,str,',');
-        if(str=="N") return root;
-        else{
-            root = new TreeNode(stoi(str));
-             q.push(root);
-        }
-        while(getline(s,str,',')){
-            TreeNode* temp = q.front();
+        q.push(root);
+        while(getline(ss,temp,','))
+        {
+            TreeNode* node = q.front();
             q.pop();
-            if(str!="N"){
-                 temp->left = new TreeNode(stoi(str));
-                 q.push(temp->left);
+            if(temp!="N")
+            {
+                 node->left = new TreeNode(stoi(temp));
+                 q.push(node->left);
             }
-            getline(s,str,',');
-            if(str!="N"){
-                 temp->right = new TreeNode(stoi(str));
-                 q.push(temp->right);
+            getline(ss,temp,',');
+            if(temp!="N"){
+                node->right = new TreeNode(stoi(temp));
+                 q.push(node->right);
             }
-
         }
-       return root; 
+        return root;
     }
 };
 
