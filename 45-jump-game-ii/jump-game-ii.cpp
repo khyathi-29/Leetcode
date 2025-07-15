@@ -1,21 +1,22 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int left = 0;
-        int right = 1;
+         // to store the range of values we can traverse from a node in case of first index 
+        //it's 1st to 2nd as in next ieration itwould be from 3 to 4
+        int left=0;
+        int right=0;
         int steps=0;
-        while(right<nums.size())
-        {
-            steps++;
-            int val =0;
-            for(int i=left;i<right && i<nums.size();i++)
-            {
-             val = max(val,nums[i]+i);
+        int maxreach =0;
+        while(left<nums.size()){
+            for(int i=left;i<=right;i++){
+                if(i==nums.size()-1) return steps;
+                maxreach = max(maxreach,i+nums[i]);
             }
-            if(val>=nums.size()-1) return steps;
-            left = right;
-            right = val+1;
+            steps++;
+            left = right+1;
+            right = maxreach;
         }
         return steps;
+        
     }
 };
