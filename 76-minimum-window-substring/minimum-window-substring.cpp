@@ -21,7 +21,6 @@ public:
                 if(minLen>right+1-left) {
                     start = left;
                     minLen=right+1-left;
-                     cout<<left<<" right "<<right<<"minLength "<<minLen<<endl;
                 }
                 char temp = s[left];
                 sm[temp]--;
