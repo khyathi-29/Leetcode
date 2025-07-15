@@ -5,6 +5,7 @@ public:
         vector<int> freq(26,0);//since only alphabets
         for(char ch : tasks) freq[ch-'A']++;
         for(int i : freq) if(i>0) pq.push(i);
+        //only consider frequencies greater than 1
         queue<pair<int,int>> q;
         int time = 0;
         while(!pq.empty() || !q.empty())
