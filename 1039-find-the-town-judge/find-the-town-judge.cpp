@@ -1,19 +1,20 @@
 class Solution {
 public:
+// use in degree and out degree of graphs
     int findJudge(int n, vector<vector<int>>& trust) {
-        unordered_map<int,int> a;
-        unordered_set<int> b;
-        if(trust.size()==0 && n==1) return 1;
+        vector<int> a(n+1,0);
+        vector<int> b(n+1,0);
+        if(trust.size()< n-1) return -1;
         for(int i=0;i<trust.size();i++)
         {
             a[trust[i][1]]++;
-            b.insert(trust[i][0]);
+            b[trust[i][0]]++;
 
         }
     
-        for( auto i = a.begin(); i!=a.end(); i++)
+        for(int i= 1; i<n+1;i++ )
         {
-            if(i->second==n-1 && b.find(i->first)==b.end()) return i->first;
+            if(a[i]==n-1 && b[i]==0) return i;
         }
         return -1;
     }
