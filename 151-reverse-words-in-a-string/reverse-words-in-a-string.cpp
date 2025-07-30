@@ -1,25 +1,30 @@
 class Solution {
 public:
     string reverseWords(string s) {
+        string temp = "";
         string ans = "";
-        string temp="";
-        for(int i=0;i<s.length();i++)
+        int i =0 ;
+        while(i<s.size())
+        {
+            if(s[i]==' ') i++;
+            else break;
+        }
+        // the below function removes unnecessary blank spaces at start
+         while(i<s.size())
         {
             if(s[i]!=' ')
             {
-                temp=temp+s[i];
+                temp = temp+s[i];
             }
-            else if(temp!=""){//to avoid adding extra blank spaces
-            cout<<temp<<endl;
-                 if(ans=="") ans =ans+ temp;// to add a word initially
-                else ans = temp + " " + ans;// to add words later
-                temp="";
+            else if(temp!=""){
+                ans = temp + " "+ans;
+                temp = "";
             }
+            i++;
         }
-        if(temp!=""){
-            if(ans!="")ans=temp+ " "+ ans;
-            else ans = ans+temp;
-        }
+        if(temp!="") ans=temp+" "+ans;
+        ans.pop_back();
+        //removes the extra blank space added
         return ans;
     }
 };
