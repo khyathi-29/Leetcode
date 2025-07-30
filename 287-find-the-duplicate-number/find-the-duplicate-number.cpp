@@ -11,7 +11,7 @@ public:
                 {
                     swap(nums,i,pos);
                 }
-                else return nums[i];
+                else return nums[pos];
                 // since already exists in correct position then the number is duplicate
             }
             else {
