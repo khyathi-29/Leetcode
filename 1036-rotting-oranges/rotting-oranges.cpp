@@ -13,14 +13,14 @@ public:
                 else if(grid[i][j]==2) q.push(make_pair(i,j));
             }
         }
-        if(fresh==0 && q.size()==0) return 0;
+        if(fresh==0) return 0;//rotten and fresh are both zeroes case
         int level=0;
         int size = q.size();
         while(!q.empty()){
             level++;
             int n = q.size();
-            cout<<"level "<<level<<endl;
-            for(int i=0;i<n;i++){
+            //cout<<"level "<<level<<endl;
+            for(int i=0;i<n;i++){ // make sure from each end rotting happens or you can check prev solution where we stored previous level and incremented instead;
              int r = q.front().first;
              int c = q.front().second;
              int n =q.size();
