@@ -1,56 +1,68 @@
-struct Node{
-    Node* links[26];
-    bool flag = false;
-    void putNode(char ch,Node* node){
-        links[ch-'a']= node;
-    }
-    Node* getNode(char ch){
-        return links[ch-'a'];
-    }
-    void makeEnd(){
-        flag = true;
-    }
-    bool isEnd(){
-        return flag;
-    }
-};
+struct Node {
+       Node* list[26];
+       bool End = false;
+       void assignNode(char c , Node* node)
+       {
+        list[c-'a']=node;
+       }
+       Node* returnNode(char c)
+       {
+         return list[c-'a'];
+       }
+       bool isEnd(){
+         return End;
+       }
+       void setEnd(){
+         End = true;
+       }
+    };
 class Trie {
-private:  Node* root;
+      Node* root;
 public:
-    Trie() {
-       root = new Node(); 
-    }
+        Trie(){
+            root = new Node();
+        }
+        
     
     void insert(string word) {
-        Node* node = root;
-        for(int i=0;i<word.size();i++){
-            if(!node->getNode(word[i])){
-                node->putNode(word[i],new Node());
+        Node* temp  = root;
+        for( int i = 0;i< word.size() ; i++ )
+        {
+            if(temp->returnNode(word[i])==NULL)
+            {
+               temp->assignNode(word[i],new Node());
             }
-            node = node->getNode(word[i]);
+            temp = temp->returnNode(word[i]);
         }
-        node->makeEnd();
+        temp->setEnd();
         
     }
     
     bool search(string word) {
-        Node* node = root;
-        for(int i=0;i<word.size();i++){
-            if(!node->getNode(word[i])) return false;  
-            node = node->getNode(word[i]);
+        Node* temp  = root;
+        for( int i = 0;i< word.size() ; i++ )
+        {
+            if(temp->returnNode(word[i])==NULL)
+            {
+                return false;
+            }
+            temp = temp->returnNode(word[i]);
         }
-        return node->isEnd(); return false;
         
+        return temp->isEnd();
     }
     
     bool startsWith(string prefix) {
-        Node* node = root;
-        for(int i=0;i<prefix.size();i++){
-            if(!node->getNode(prefix[i])) return false;  
-            node = node->getNode(prefix[i]);
+        Node* temp  = root;
+        for( int i = 0;i< prefix.size() ; i++ )
+        {
+            if(temp->returnNode(prefix[i])==NULL)
+            {
+                return false;
+            }
+            temp = temp->returnNode(prefix[i]);
         }
         return true;
-        
     }
 };
 
