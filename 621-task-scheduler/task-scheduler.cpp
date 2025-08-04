@@ -23,7 +23,7 @@ public:
           else{
             time = q.front().first;
           }
-          if(!q.empty() && time==q.front().first){
+          if(!q.empty() && time>=q.front().first){
             pq.push(q.front().second);
             q.pop();
           }
