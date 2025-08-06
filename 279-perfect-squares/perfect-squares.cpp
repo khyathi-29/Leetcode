@@ -1,7 +1,7 @@
 class Solution {
 public:
     int numSquares(int n) {
-        vector<int> dp(n+1,INT_MAX/2);
+        vector<int> dp(n+1,INT_MAX);
         dp[0]=0;
         int m = sqrt(n);
         for(int i =1 ; i<=m ;i++)
