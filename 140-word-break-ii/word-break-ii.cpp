@@ -1,83 +1,53 @@
+
 struct Node {
-    Node* list[26];
-    bool End = false;
-    Node() { // IMPORTANT: initialize child pointers
-        for (int i = 0; i < 26; ++i) list[i] = nullptr;
-    }
-    void assignNode(char c, Node* node) { list[c - 'a'] = node; }
-    Node* returnNode(char c) { return list[c - 'a']; }
-    bool isEnd() { return End; }
-    void setEnd() { End = true; }
+    Node* next[26] = {nullptr};
+    bool end = false;
 };
 
 class Trie {
-    Node* root;
 public:
-    Trie() : root(new Node()) {}
-
-    void insert(const string& word) {
-        Node* temp = root;
-        for (char ch : word) {
-            if (temp->returnNode(ch) == nullptr) {
-                temp->assignNode(ch, new Node());
-            }
-            temp = temp->returnNode(ch);
+    Node* root = new Node();
+    void insert(const string& w) {
+        Node* cur = root;
+        for (char c : w) {
+            int idx = c - 'a';
+            if (!cur->next[idx]) cur->next[idx] = new Node();
+            cur = cur->next[idx];
         }
-        temp->setEnd();
-    }
-
-    bool search(const string& word) {
-        Node* temp = root;
-        for (char ch : word) {
-            if (temp->returnNode(ch) == nullptr) return false;
-            temp = temp->returnNode(ch);
-        }
-        return temp->isEnd();
-    }
-
-    bool startsWith(const string& prefix) {
-        Node* temp = root;
-        for (char ch : prefix) {
-            if (temp->returnNode(ch) == nullptr) return false;
-            temp = temp->returnNode(ch);
-        }
-        return true;
+        cur->end = true;
     }
 };
+
 class Solution {
 public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-         Trie trie;
-        for (const string& w : wordDict) trie.insert(w);
-
-        // memo[idx] -> all sentences that can be formed from s[idx:]
-        unordered_map<int, vector<string>> memo;
-        return dfs(0, s, trie, memo);
+        Trie trie;
+        for (auto& w : wordDict) trie.insert(w);
+        unordered_map<int, vector<string>> memo;  // start idx -> sentences from s[start:]
+        return dfs(0, s, trie.root, memo);
     }
-    vector<string> dfs(int pos, const string& s, Trie& trie,
+
+private:
+    vector<string> dfs(int start, const string& s, Node* root,
                        unordered_map<int, vector<string>>& memo) {
-        if (pos == (int)s.size()) return {""}; // empty tail = valid termination
-        if (memo.count(pos)) return memo[pos];
+        if (memo.count(start)) return memo[start];
+        if (start == (int)s.size()) return memo[start] = {""}; // base: empty tail
 
         vector<string> res;
-        string prefix; // grow s[pos..i]
-        for (int i = pos; i < (int)s.size(); ++i) {
-            prefix.push_back(s[i]);
-
-            // prune early: if no word starts with this prefix, stop extending
-            if (!trie.startsWith(prefix)) break;
-
-            if (trie.search(prefix)) {
-                // get sentences from the rest
-                vector<string> tails = dfs(i + 1, s, trie, memo);
-                for (const string& tail : tails) {
-                    // join current word + (optional) space + tail
-                    if (tail.empty()) res.push_back(prefix);
-                    else res.push_back(prefix + " " + tail);
+        Node* cur = root;
+        // extend one char at a time; stop as soon as trie path breaks
+        for (int i = start; i < (int)s.size(); ++i) {
+            int idx = s[i] - 'a';
+            cur = cur->next[idx];
+            if (!cur) break;                  // no prefix continues → prune
+            if (cur->end) {                   // s[start..i] is a word
+                string word = s.substr(start, i - start + 1);
+                auto tails = dfs(i + 1, s, root, memo);
+                for (auto& tail : tails) {
+                    res.push_back(tail.empty() ? word : word + " " + tail);
                 }
             }
         }
-        memo[pos] = move(res);
-        return memo[pos];
+        return memo[start] = res;
     }
 };
