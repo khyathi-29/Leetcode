@@ -17,15 +17,15 @@ public:
 
     int maxNumberOfAlloys(int n, int k, int budget, vector<vector<int>>& composition, vector<int>& stock, vector<int>& cost) {
         long long left = 0,right = budget + *max_element(stock.begin(), stock.end());
-        while (left < right) {
+        while (left <= right) {
             long long mid = (left + right + 1) >> 1;
             if (isValid(mid, n, k, budget, composition, stock, cost)) {
-                left = mid;
+                left = mid+1;
             } else {
                 right = mid - 1;
             }
         }
-        return (int)left;
+        return (int)right;
         
     }
 };
