@@ -15,7 +15,7 @@ public:
         for(j=0;j<s1.size();j++){
              char c = s2[j];
              int i = c-'a';
-             b[s2[j]-'a']++;
+             b[i]++;
         }
         int i=0;
         while(i<26){
