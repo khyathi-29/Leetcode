@@ -13,6 +13,7 @@ public:
         {
             for(int t = -total; t<total+1;t++)
             {
+                //// If at least one expression (during previous iterations) evaluated to this target sum
                 if(dp[i-1][t+total]>0)// t-total sum exists in the array
                 {
                   dp[i][t+total+nums[i-1]] += dp[i-1][t+total];
