@@ -1,7 +1,7 @@
 class Solution {
 public:
     string largestNumber(vector<int>& nums) {
-        vector<string> s ;
+       vector<string> s ;
         for(int i : nums) s.push_back(to_string(i));
         sort(s.begin(),s.end(),[](string a, string b){
            return (a+b)>(b+a);
@@ -11,6 +11,6 @@ public:
         for(string temp : s){
             ans += temp;
         }
-        return ans;
+        return ans; 
     }
 };
