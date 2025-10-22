@@ -34,6 +34,7 @@ public:
                     if(grid[r1][c1]==1){
                      cout<<r1<<" "<<c1<<endl;
                      fresh-=1;
+                     if(fresh==0) return level;
                      grid[r1][c1]=2;
                      q.push(make_pair(r1,c1));
                    }
