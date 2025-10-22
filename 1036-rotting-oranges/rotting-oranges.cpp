@@ -23,7 +23,6 @@ public:
             for(int i=0;i<n;i++){ // make sure from each end rotting happens or you can check prev solution where we stored previous level and incremented instead;
              int r = q.front().first;
              int c = q.front().second;
-             int n =q.size();
              q.pop();
 
              for(int i =0;i<4;i++){
