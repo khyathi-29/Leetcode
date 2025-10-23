@@ -1,53 +1,58 @@
-
-struct Node {
-    Node* next[26] = {nullptr};
-    bool end = false;
-};
-
-class Trie {
-public:
-    Node* root = new Node();
-    void insert(const string& w) {
-        Node* cur = root;
-        for (char c : w) {
-            int idx = c - 'a';
-            if (!cur->next[idx]) cur->next[idx] = new Node();
-            cur = cur->next[idx];
+class Node{
+    public:
+        Node* next[26];
+        bool end = false;
+    };
+class Trie{
+    public:
+    Node* root;
+    Trie(){
+        root = new Node();
+    }
+    void insert(string s)
+    {
+        Node* curr = root;
+        for( char c : s)
+        {
+            int idx = c-'a';
+            if(curr->next[idx]==NULL) curr->next[idx]= new Node();
+            curr = curr->next[idx];
         }
-        cur->end = true;
+        curr->end = true;
     }
 };
 
 class Solution {
 public:
+
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        Trie trie;
-        for (auto& w : wordDict) trie.insert(w);
-        unordered_map<int, vector<string>> memo;  // start idx -> sentences from s[start:]
-        return dfs(0, s, trie.root, memo);
+        Trie* trie = new Trie();
+        for(string s: wordDict) trie->insert(s);
+        unordered_map<int,vector<string>> memo;
+        return dfs(0,trie,s,memo);
     }
-
-private:
-    vector<string> dfs(int start, const string& s, Node* root,
-                       unordered_map<int, vector<string>>& memo) {
-        if (memo.count(start)) return memo[start];
-        if (start == (int)s.size()) return memo[start] = {""}; // base: empty tail
-
+    vector<string> dfs(int idx,Trie* trie, string s,unordered_map<int,vector<string>>& memo)
+    {
+        if(idx==s.size()) return {""};
+        if(memo.find(idx)!=memo.end()) return memo[idx];
+        Node* curr = trie->root;
         vector<string> res;
-        Node* cur = root;
-        // extend one char at a time; stop as soon as trie path breaks
-        for (int i = start; i < (int)s.size(); ++i) {
-            int idx = s[i] - 'a';
-            cur = cur->next[idx];
-            if (!cur) break;                  // no prefix continues → prune
-            if (cur->end) {                   // s[start..i] is a word
-                string word = s.substr(start, i - start + 1);
-                auto tails = dfs(i + 1, s, root, memo);
+        for( int i = idx ; i<s.size();i++)
+        {
+            int j = s[i]-'a';
+            curr = curr->next[j];
+            if(curr==NULL) break;
+            if(curr->end==true)
+            {
+                string word = s.substr(idx, i - idx + 1);
+                auto tails = dfs(i + 1, trie ,s, memo);
                 for (auto& tail : tails) {
                     res.push_back(tail.empty() ? word : word + " " + tail);
                 }
             }
+
         }
-        return memo[start] = res;
+        memo[idx] = res;
+        return res;
     }
 };
