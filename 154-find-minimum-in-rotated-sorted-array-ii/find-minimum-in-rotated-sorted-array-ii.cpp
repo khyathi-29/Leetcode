@@ -1,38 +1,27 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int low = 0;
-        int high = nums.size()-1;
-        int ans = nums[low];
-        while(low<=high)
+        int ans = INT_MAX;
+        int l = 0;
+        int h = nums.size()-1;
+        while(l<=h)
         {
-            int mid = (low+(high-low)/2);
-            cout<<mid<<endl;
-            if(nums[mid]==nums[low] && nums[high]==nums[low])
-            {
-                ans = min(nums[low],ans);
-                high--;
-                low++;
+            int mid = l + (h-l)/2;
+            if(nums[l]==nums[mid] && nums[mid]==nums[h]){
+                ans = min(ans,nums[l]);
+                l++;
+                h--;
             }
-            else if(nums[low]<=nums[mid] && nums[mid]<=nums[high])
-            {
-                ans = min(nums[low],ans);
-                cout<<"2"<<endl;
-                break;
-            }
-            else if(nums[low]<=nums[mid])
-            {
-                ans = min(ans,nums[low]);
-                cout<<"3"<<endl;
-                low = mid+1;
+            else if(nums[l]<=nums[mid] && nums[mid]<=nums[h]) return min(ans,nums[l]);
+            else if(nums[l]<=nums[mid]){
+                  ans = min(ans,nums[l]);
+                  l = mid+1;
             }
             else{
                 ans = min(ans,nums[mid]);
-                cout<<"4"<<endl;
-                high = mid-1;
+                  h = mid-1;
             }
         }
         return ans;
-        
     }
 };
