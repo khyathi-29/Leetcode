@@ -7,7 +7,7 @@ public:
             if(nums[i]<=0) i++;
             else{
                 int pos = nums[i]-1;
-                if(pos<nums.size() && nums[pos]!=nums[i])
+                if(pos<nums.size() && nums[pos]!=pos+1)//nums[i])
                 {
                     swap(i,pos,nums);
                 }
