@@ -1,64 +1,76 @@
 class Node{
     int key;
     int val;
-    Node next;
-    Node prev;
-    public Node(int key,int val){
-        this.key = key;
-        this.val = val;
+    Node next,prev;
+    Node(int key,int val){
+         this.key = key;
+         this.val = val;
     }
+
 }
 class LRUCache {
-    int capacity;
-    Map<Integer, Node> mp;
-    Node start;
-    Node end;
+    int cap;
+    int size;
+    Map<Integer,Node> mp;
+    Node start, end;
     public LRUCache(int capacity) {
-        this.capacity = capacity;
-        start = new Node(-1,-1);
-        end = new Node(-1,-1);
-        mp = new HashMap<>();
-        start.next = end;
-        end.prev = start;
+       cap = capacity;
+       size = 0;
+       mp = new HashMap<>();
+       start = new Node(0,0);
+       end = new Node(0,0);
+       start.next = end;
+       end.prev = start;
     }
     
     public int get(int key) {
-        if(mp.containsKey(key)){
-           Node temp = mp.get(key);
-           removeNode(temp);
-           addFront(temp);
-           return temp.val;
+        if(!mp.containsKey(key)) return -1;
+        else{
+            Node temp = mp.get(key);
+            removeNode(temp);
+            addNodeFront(temp);
+            return temp.val;
         }
-        else return -1;
     }
     
     public void put(int key, int value) {
-        if(mp.containsKey(key)){
+        if(!mp.containsKey(key))
+        {
+            Node temp = new Node(key,value);
+            mp.put(key,temp);
+            addNodeFront(temp);
+            if(size<cap)
+            {
+                 size++;
+            }
+            else{
+                Node delete = end.prev;
+                mp.remove(delete.key);
+                removeNode(delete);
+            }
+        }
+        else{
             Node temp = mp.get(key);
+            temp.val = value;
             removeNode(temp);
+            addNodeFront(temp);
         }
-        Node ans = new Node(key,value);
-        mp.put(key,ans);
-        addFront(ans);
-        if(mp.size()>capacity){
-            //remove lastNode
-            //remove lastNode from Hashmap
-            Node nodeToDelete = end.prev;
-            removeNode(nodeToDelete);
-            mp.remove(nodeToDelete.key);
-        }
-        
     }
-    public void addFront(Node node){
+    
+    public void removeNode(Node curr)
+    {
+        Node n = curr.next;
+        Node p = curr.prev;
+        p.next = n;
+        n.prev = p;
+    }
+    public void addNodeFront(Node curr)
+    {
         Node n = start.next;
-        node.next = n;
-        start.next = node;
-        n.prev = node;
-        node.prev = start;
-    }
-    public void removeNode(Node node){
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
+        start.next = curr;
+        curr.prev = start;
+        curr.next = n;
+        n.prev = curr;
     }
 }
 
