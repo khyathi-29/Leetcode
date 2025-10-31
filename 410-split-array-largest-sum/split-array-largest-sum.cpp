@@ -1,35 +1,35 @@
 class Solution {
 public:
     int splitArray(vector<int>& nums, int k) {
-        int low = 0;//minimum sum possible
-        int high = 0 ;// maximum sum possible
-        for( int i : nums)
+        int minVal = 0;
+        int maxVal = 0;
+        for(int i : nums)
         {
-            low = max(low,i);
-            high+=i;
+            minVal = max(minVal,i);
+            maxVal+=i;
         }
-        int ans = high;
-        while(low<=high)
+        int ans = maxVal;
+        int i = minVal;
+        int j = maxVal;
+        while(i<=j)
         {
-            int mid = (low + (high-low)/2);
-            int count  = 1 ;
-            int sum  = 0;
-            for(int i : nums)
+            int mid = i+(j-i)/2;
+            int kk = 1;
+            int sum = 0;
+            for( int temp : nums)
             {
-                 if(sum+i<= mid) sum+=i;
-                 else{
-                    count++;
-                    sum=i;
-                 }
+                if(temp+sum<=mid) sum+=temp;
+                else{
+                    kk++;
+                    sum = temp;
+                }
             }
-            if(count<=k)
-            {
+            if(kk<=k){
                 ans = min(ans,mid);
-                high = mid-1;
+                j = mid-1;
             }
-            else low = mid+1;
+            else i=mid+1;
         }
         return ans;
-        
     }
 };
