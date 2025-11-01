@@ -11,45 +11,43 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-     ListNode* dummy = new ListNode(0,head);
-     ListNode* temp = head;
-     ListNode* prevHead = dummy;
-     while(temp!=NULL)
-     {
-        ListNode* temp1 = temp;
-        int n = k;
-        while(n!=0)
-        {
-            if(temp1==NULL) return dummy->next;
-            temp1 = temp1->next;
-            n--;
-        }
-        ListNode* oldstart = temp;
-        ListNode* newstart = Reverse(temp,k);
+        ListNode* dummy = new ListNode(0,head);
+        ListNode* temp = head;
+        ListNode* prevGroup = dummy;
+         while(temp!=NULL)
+         {
+            int n = k;
+            ListNode* temp1 = temp;
+            while(n!=0)
+            {
+                if(temp1==NULL) return dummy->next;
+                temp1 = temp1->next;
+                n--;
+            }
+            ListNode* nextGroup = temp1;
+            ListNode* prevHead = temp;
+            ListNode* newHead = reverse(temp,k);
+            cout<<"fjurf"<<prevGroup->val<<endl;
+            prevGroup->next = newHead;
+            prevHead->next = nextGroup;
+            prevGroup = temp;
+            temp = temp1;
+         }
 
-        prevHead->next = newstart;
-        prevHead = oldstart;
-        oldstart->next = temp1;
-        temp = temp1;
-     }
-        return dummy->next;
-
+         return dummy->next;
     }
-    ListNode* Reverse(ListNode* temp, int k)
+    ListNode* reverse(ListNode* head,int n)
     {
-        ListNode* te = temp;
-        ListNode* pre = NULL;
-        ListNode* Next;
-        while(k!=0)
-        {
-            Next = te->next;
-            te->next = pre;
-            pre = te;
-            te = Next;
-            k--;
-        }
-
-        return pre;
+      ListNode* prev = NULL;
+      ListNode* current = head;
+      ListNode* Nnext ;
+      while(n!=0){
+        Nnext = current->next;
+        current->next = prev;
+        prev = current;
+        current = Nnext;
+        n--;
+      }
+      return prev;
     }
-    
 };
