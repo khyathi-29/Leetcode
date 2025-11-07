@@ -15,16 +15,16 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
-        if(root==null) return ans;
+        List<Integer> ans = new ArrayList();
         Helper(root,ans,0);
         return ans;
     }
-    public void Helper(TreeNode root,List<Integer> ans, int level){
-        if(ans.size()==level){
-            ans.add(root.val);
-        }
-        if(root.right!=null) Helper(root.right,ans,level+1);
-        if(root.left!=null) Helper(root.left,ans,level+1);
-    }
+    public void Helper(TreeNode root, List<Integer> ans,int level)
+    {
+        if(root==null) return;
+        if(level == ans.size()) ans.add(root.val);
+        Helper(root.right,ans,level+1);
+        Helper(root.left,ans,level+1);
+        return;
+    } 
 }
