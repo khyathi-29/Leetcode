@@ -14,40 +14,30 @@ class Solution {
             maxchar = i;
         }
        }
-       
-       StringBuilder sb = new StringBuilder(" ".repeat(s.length()));
-       if(maxfreq>(1+s.length())/2) return "";
+       int n = s.length();
+       char[] res = new char[n];
+       if(maxfreq>(1+n)/2) return "";
        int i =0;
-       while(i<s.length() && maxfreq>0)
+       while(i<n && maxfreq>0)
        {    
-            sb.setCharAt(i,(char)('a'+maxchar));
+            res[i]= (char)('a'+maxchar);
             maxfreq--;
             i=i+2;
 
        }
        freq[maxchar]=0;
        int j =0;
-       while(i<s.length() && j<26)
+       while(j<26)
        {
+         if(i>=n) i = 1;
          if(freq[j]>0)
          {
-            sb.setCharAt(i,(char) ('a' + j));
+            res[i]= (char)('a'+j);
             freq[j]--;
             i=i+2;
          }
          else j++;
        }
-       i=1;
-        while(i<s.length() && j<26)
-       {
-         if(freq[j]>0)
-         {
-            sb.setCharAt(i,(char) ('a' + j));
-            freq[j]--;
-            i=i+2;
-         }
-         else j++;
-       }
-       return sb.toString();
+       return new String(res);
     }
 };
