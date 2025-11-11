@@ -3,35 +3,35 @@ class Solution {
         int n1 = nums1.length;
         int n2 = nums2.length;
         if(n1>n2) return findMedianSortedArrays(nums2,nums1);
-        int leftElements = (n1+n2+1)/2;
-        int l1 , r1, l2, r2;
-        int i=0;
-        int j = nums1.length;
-        //Search from 0 to n1 (not n1-1) because you can also cut at the 
-        //beginning or end of the array.
-        while(i<=j)
+        int mid = (n1+n2+1)/2;
+        int l1 = Integer.MIN_VALUE;
+        int h1 = Integer.MAX_VALUE;
+        int l2 = l1;
+        int h2 = h1;
+        int high = n1;
+        int low = 0;
+        while(low<=high)
         {
-            int mid1 = i + (j-i)/2;
-            int mid2 = leftElements - mid1;
-            l1 = (mid1==0)?Integer.MIN_VALUE:nums1[mid1-1];
-            r1 = (mid1==n1)?Integer.MAX_VALUE:nums1[mid1];
-            l2 = (mid2==0)?Integer.MIN_VALUE:nums2[mid2-1];
-            r2 = (mid2==n2)?Integer.MAX_VALUE:nums2[mid2];
-            if(l1>r2){
-                j = mid1-1;
-            }
-            else if(l2>r1){
-                i = mid1 + 1;
-            }
-            else{
-                if((n1+n2)%2==1) return (double) Math.max(l1,l2);
-                else {
-                    return (double)(Math.max(l1,l2)+Math.min(r1,r2))/2;
-                }
-            }
-
+            int mid1 = low+(high-low)/2;
+            int mid2 = mid-mid1;
+          
+            l1 = (mid1>0)? nums1[mid1-1]:  Integer.MIN_VALUE;
+            l2 = (mid2>0)? nums2[mid2-1]:  Integer.MIN_VALUE;
+            h1 = (mid1<n1)? nums1[mid1]:  Integer.MAX_VALUE;
+            h2 = (mid2<n2)? nums2[mid2]:  Integer.MAX_VALUE;
+           if(l1<=h2 && l2<=h1)
+           {
+             if((n1+n2)%2==1) return (double)Math.max(l1,l2);
+             else return  (double)(Math.max(l1,l2)+Math.min(h1,h2))/2.00;
+           }
+           else if(l1>h2)
+           {
+              high = mid1-1;
+           }
+           else{
+             low = mid1+1;
+           }
         }
-        return -1.00;
-        
+        return -1;
     }
 }
