@@ -10,7 +10,7 @@ class Solution {
                 k--;
             }
             s.add(i);
-            if(s.size()==1 && n[s.peek()]=='0') s.pop();
+            if(s.size()==1 && n[s.peek()]=='0') s.pop(); // remove the leading zeroes
         }
         while(k>0 && !s.isEmpty()) {
             s.pop();
