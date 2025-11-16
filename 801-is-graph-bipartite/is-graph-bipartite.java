@@ -5,7 +5,7 @@ class Solution {
         for(int i=0;i<n;i++){
             if(visited[i]==0){
                 visited[i]=1;
-                if(Bfs(i,visited,graph)==false) return false;
+                if(Dfs(i,visited,graph)==false) return false;
             }
         }
         return true;
