@@ -43,10 +43,7 @@ public:
             if(board[i][c]=='Q') return false;
             i--;
         }
-        while(j>-1){
-            if(board[r][j]=='Q') return false;
-            j--;
-        }
+        
         return true;
     }
 };
