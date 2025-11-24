@@ -1,83 +1,82 @@
-class Disjoint{
-    public: 
-    vector<int> parent;
-    vector<int> size;
-    Disjoint(int n){
-        parent = vector<int>(n);
-        size = vector<int>(n,1);
-        for(int i=0;i<n;i++) parent[i]=i;
-    }
-    int maxArea(){
-        int ans =0;
-        for(int i=0;i<size.size();i++) ans = max(ans,size[i]);
-        return ans;
-    }
-    int Uparent(int node){
-           if(node==parent[node]) return node;
-           else {
-                 parent[node]= Uparent(parent[node]);
-           }
-           return parent[node];
-    }
-    void addEdge(int n1,int n2){
-        int p1 = Uparent(n1);
-        int p2 = Uparent(n2);
-        if(p1==p2) return;
-        else{
-            if(size[p1]>size[p2]){
-                size[p1]+=size[p2];
-                parent[p2]=p1;
-            }
-            else {
-                size[p2]+=size[p1];
-                parent[p1]=p2;
-            }
+class unionFind{
+    public:
+    vector<int> p;
+    vector<int> s;
+    unionFind(int n){
+        int i =0;
+        while(i<n){
+            s.push_back(1);
+            p.push_back(i);
+            i++;
         }
     }
-    
+    int parent(int i){
+        if(p[i]!=i) return p[i]=parent(p[i]);
+        return i;
+    }
+    void addEdge(int i, int j){
+        int pi = parent(i);
+        int pj = parent(j);
+        if(pi!=pj){
+            if(s[pi]>s[pj]){
+                s[pi]+=s[pj];
+                p[pj]=pi;
+            }
+            else{
+                s[pj]+=s[pi];
+                p[pi]=pj;
+            }
+        }
+        return;
+    }
+
 };
 class Solution {
 public:
     int largestIsland(vector<vector<int>>& grid) {
-        int n = grid.size()*grid.size();
-        Disjoint graph = Disjoint(n);
-        int ans =0;
-        int col =grid[0].size() ,row = grid.size();
-        vector<int> rr = {0,0,1,-1};
-        vector<int> cc = {1,-1,0,0};
-        for(int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
+        int n = grid.size();
+        unionFind dfs(n*n);
+        int col = n;
+        vector<vector<int>> dir = {{0,1},{1,0},{0,-1},{-1,0}};
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
-                    for(int k=0;k<4;k++){
-                        int newR = i + rr[k];
-                        int newC = j+cc[k];
-                        if( newR>-1 && newR<row && newC>-1 && newC<col && grid[newR][newC]==1){
-                            graph.addEdge(i*row + j,newR*row+newC);
+                      for(vector<int> d : dir){
+                        int nr = d[0]+i;
+                        int nc = d[1]+j;
+                        if(nc>-1 && nr>-1 && nc<n && nr<n && grid[nr][nc]==1){
+                            dfs.addEdge(i*n+j,nr*n+nc);
                         }
-                    }
+                      }
                 }
             }
         }
-        ans = graph.maxArea();
-            for(int i=0;i<row;i++){
-                for(int j=0;j<col;j++){
-                    set<int> s;
-                    if(grid[i][j]==0){
-                        for(int k=0;k<4;k++){
-                        int newR = i + rr[k];
-                        int newC = j+cc[k];
-                         if( newR>-1 && newR<row && newC>-1 && newC<col && grid[newR][newC]==1){
-                            s.insert(graph.Uparent(newR*row+newC));
-                         }
+        int ans = 0;
+        int i=0;
+        while(i<n*n){
+            ans = max(ans,dfs.s[i]);
+            i++;
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==0){
+                      set<int> s;
+                      for(vector<int> d : dir){
+                        int nr = d[0]+i;
+                        int nc = d[1]+j;
+                        if(nc>-1 && nr>-1 && nc<n && nr<n && grid[nr][nc]==1){
+                            s.insert(dfs.parent(nr*n + nc));
                         }
-                        int area =0;
-                        for(int a: s){
-                            area+= graph.size[a];
-                        }
-                        ans = max(ans,area+1);
-                    }
+                      }
+                      int total =0;
+                      for(int i : s){
+                          total+=dfs.s[i];
+                      }
+                     ans = max (ans, total+1);
                 }
             }
-          return ans;
         }
+
+        return ans;
+    }
 };
